@@ -63,7 +63,6 @@ spec:
         title: "Create new project: ${{ parameters.project }}"
         description: This is a request for the creation of the namespace ${{ parameters.project }}
         branchName: create-ns-${{parameters.project}}
-        sourcePath: ./skeleton
 
   output:
     links:
