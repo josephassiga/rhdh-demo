@@ -48,7 +48,6 @@ spec:
       action: fetch:template
       input:
         url: ./skeleton
-        copyWithoutTemplating: []
         values:
           description: ${{ parameters.description }}
           team: ${{ parameters.team.split("/")[1] }}
@@ -69,5 +68,5 @@ spec:
   output:
     links:
       - title: View the Source Repository
-        url: ${{ steps.publishSource.output.remoteUrl }}
+        url: ${{ ssteps.pull-request.output.remoteUrl.output.remoteUrl }}
                                
