@@ -1,9 +1,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: environment-template
-  title: Envrionment Request Template
-  description: Request the Creation of an environment 
+  name: project-template
+  title: Project Request Template
+  description: Project the Creation of an environment 
   tags:
     - recommended
     - environment
