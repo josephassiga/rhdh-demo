@@ -56,14 +56,14 @@ spec:
 
     - id: pull-request
       name: Create a Pull Request to create a new project.
-      action: publish:github
+      action: publish:github:pull-request
       input:
         allowedHosts: ['github.com']
         repoUrl: github.com?repo=rhdh-demo&owner=josephassiga
         title: "Create new project: ${{ parameters.project }}"
         description: This is a request for the creation of the namespace ${{ parameters.project }}
         branchName: create-ns-${{parameters.project}}
-        sourcePath: ./source
+        sourcePath: ./skeleton
 
   output:
     links:
