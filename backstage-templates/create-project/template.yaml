@@ -56,7 +56,7 @@ spec:
 
     - id: pull-request
       name: Create a Pull Request to create a new project.
-      action: publish:github:pull-request
+      action: publish:github
       input:
         allowedHosts: ['github.com']
         repoUrl: github.com?repo=rhdh-demo&owner=josephassiga
