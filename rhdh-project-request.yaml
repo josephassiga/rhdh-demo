@@ -1,0 +1,60 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: environment-template
+  title: Envrionment Request Template
+  description: Request the Creation of an environment 
+  tags:
+    - recommended
+    - environment
+    - provisioning
+spec:
+  owner: service@example.com
+  type: service
+
+  parameters:
+    - title: Environment Request
+      required:
+        - project
+        - description
+        - team
+      properties:
+        project:
+          title: Project
+          type: string
+          description: Project or namespace that will contains ressources for the applications    
+        description:
+          title: Description
+          type: string
+          description: Short description for this environment                    
+        team:
+          title: Teams
+          type: string
+          description: Member of the project
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds: 
+              - Group
+
+  steps:
+    - id: template
+      name: Code Fetch Skeleton + Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        copyWithoutRender: []
+        values:
+          description: ${{ parameters.description }}
+          team: ${{ parameters.owner.split("/")[1] }}
+          project: ${{ parameters.project }}
+          size: ${{parameters.size}}  
+
+    - id: pull-request
+      name: make a pr with the new namespace
+      action: publish:github:pull-request
+      input:
+        repoUrl: github.com?repo=namespaces&owner=environment-aas
+        branchName: ${{ parameters.application }}-${{ parameters.environment }}
+        title: ${{ parameters.cluster }}/${{ parameters.application }}-${{ parameters.environment }} namespace
+        description: This is a request for the creation of the ${{ parameters.application }}-${{ parameters.environment }} namespace in the ${{ parameters.cluster }} from the ${{ parameters.owner }} team
+                               
