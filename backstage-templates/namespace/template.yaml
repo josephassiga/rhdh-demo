@@ -18,6 +18,7 @@ spec:
         - project
         - description
         - team
+        - environment
       properties:
         project:
           title: Project
@@ -26,7 +27,12 @@ spec:
         description:
           title: Description
           type: string
-          description: Short description for this environment                    
+          description: Short description for this environment       
+        environment:
+          title: Environment
+          type: string
+          enum: ["dev", "qa", "prod"]
+          description: Purpose for this environment                   
         team:
           title: Teams
           type: string
@@ -47,13 +53,21 @@ spec:
           description: ${{ parameters.description }}
           team: ${{ parameters.team.split("/")[1] }}
           project: ${{ parameters.project }}
+          environment: ${{ parameters.environment }}
 
     - id: pull-request
       name: make a pr with the new namespace
       action: publish:github:pull-request
       input:
+        allowedHosts: ['github.com']
         repoUrl: github.com?repo=rhdh-demo&owner=josephassiga
-        branchName: main
-        title: ${{ parameters.project }} namespace
-        description: This is a request for the creation of the ${{ parameters.project }}  from the ${{ parameters.team }} team
+        title: "Create new project: ${{ parameters.project }}"
+        description: This is a request for the creation of the namespace ${{ parameters.project }}
+        branchName: create-ns-${{parameters.project}}
+        sourcePath: ./source
+
+  output:
+    links:
+      - title: View the Source Repository
+        url: ${{ steps.publishSource.output.remoteUrl }}
                                
