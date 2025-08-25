@@ -56,7 +56,7 @@ spec:
           environment: ${{ parameters.environment }}
 
     - id: pull-request
-      name: make a pr with the new namespace
+      name: Create a Pull Request to create a new project.
       action: publish:github:pull-request
       input:
         allowedHosts: ['github.com']
