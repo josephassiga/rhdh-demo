@@ -47,7 +47,6 @@ spec:
           description: ${{ parameters.description }}
           team: ${{ parameters.owner.split("/")[1] }}
           project: ${{ parameters.project }}
-          size: ${{parameters.size}}  
 
     - id: pull-request
       name: make a pr with the new namespace
