@@ -21,8 +21,6 @@ spec:
     repoURL: https://github.com/josephassiga/rhdh-demo.git
     targetRevision: HEAD
     path: app-demo/dev
-    directory:
-      recurse: true
 
   # Sync policy
   syncPolicy:
