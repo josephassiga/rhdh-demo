@@ -5,7 +5,7 @@ metadata:
     openshift.io/description: ${{ values.description }}
   labels:
 {% for t in values.teams %}
-    team/{{ t.group }}: ""   # one label per group
+    team/${{ t.group }}: ""   # one label per group
 {% endfor %}
     environment: ${{ values.environment }}
   name: ${{ values.project }}
