@@ -3,21 +3,20 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  # e.g. developer-admin-group-a-rb
-  name: {{ values.project }}-{{ t.role }}-{{ t.group | replace('/', '-') | replace(' ', '-') | lower }}-rb
-  namespace: {{ values.project }}
+  name: ${{ values.project }}-${{ t.role }}-${{ t.group | replace('/', '-') | replace(' ', '-') | lower }}-rb
+  namespace: ${{ values.project }}
 subjects:
   - kind: Group
-    name: {{ t.group }}
+    name: ${{ t.group }}
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   {# map role to ClusterRole; use custom Role if requested #}
   {% if t.role in ["view","edit","admin"] -%}
   kind: ClusterRole
-  name: {{ t.role }}
+  name: ${{ t.role }}
   {% else -%}
   kind: Role
-  name: {{ values.project }}-custom
+  name: ${{ values.project }}-custom
   {% endif -%}
 {% endfor -%}
