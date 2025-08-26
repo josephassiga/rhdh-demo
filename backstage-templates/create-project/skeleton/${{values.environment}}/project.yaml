@@ -4,6 +4,6 @@ metadata:
   annotations:
     openshift.io/description: ${{values.description}}
   labels:
-    team: ${{values.team}}
+    team: ${{values.teams}}
     environment: ${{values.environment}}
   name: ${{values.project}}

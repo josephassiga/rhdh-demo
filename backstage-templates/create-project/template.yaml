@@ -1,71 +1,89 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: project-template
-  title: Project Request Template
-  description: Project the Creation of an environment 
-  tags:
-    - recommended
-    - environment
-    - provisioning
+  name: project-environment-rbac
+  title: Project + RBAC (per-group role)
+  description: Creates a Namespace and RoleBindings for selected groups/roles
+  tags: [namespace, rbac, environment]
 spec:
   owner: service@example.com
   type: service
 
   parameters:
-    - title: Environment Request
-      required:
-        - project
-        - description
-        - team
-        - environment
+    - title: Project Details
+      required: [project, description, environment]
       properties:
         project:
           title: Project
           type: string
-          description: Project or namespace that will contains ressources for the applications    
+          description: K8s namespace/project name
         description:
           title: Description
           type: string
-          description: Short description for this environment       
+          description: Short description shown on the namespace
         environment:
           title: Environment
           type: string
-          enum: ["dev", "qa", "prod"]
-          description: Purpose for this environment                   
-        team:
+          enum: ["dev","preprod","prod"]
+
+    - title: Team
+      required: [teams]
+      properties:
+        teams:
           title: Teams
-          type: string
-          description: Member of the project
-          ui:field: OwnerPicker
+          type: array
+          description: Pick a group and one role for each row
+          items:
+            type: object
+            required: [group, role]
+            properties:
+              group:
+                title: Group
+                type: string
+                description: Identity provider group name
+                # If you want a fixed dropdown like the mock, keep enum below.
+                # Otherwise remove enum to allow free text or use OwnerPicker.
+                enum: ["group-a","group-b","group-c"]
+              role:
+                title: Role
+                type: string
+                enum: ["edit","view","admin","custom"]
+                default: "view"
+                ui:widget: radio
           ui:options:
-            allowedKinds: 
-              - Group
+            orderable: false
+            addable: true
+            removable: true
+          default:
+            - { group: "group-a", role: "edit" }
+            - { group: "group-b", role: "admin" }
+            - { group: "group-c", role: "custom" }
 
   steps:
-    - id: template
-      name: Code Fetch Skeleton + Template
+    - id: fetch
+      name: Fetch skeleton
       action: fetch:template
       input:
         url: ./skeleton
+        targetPath: .
         values:
-          description: ${{ parameters.description }}
-          team: ${{ parameters.team.split("/")[1] }}
           project: ${{ parameters.project }}
+          description: ${{ parameters.description }}
           environment: ${{ parameters.environment }}
+          teams: ${{ parameters.teams }}
 
-    - id: pull-request
-      name: Create a Pull Request to create a new project.
+    - id: pr
+      name: Open GitHub Pull Request
       action: publish:github:pull-request
       input:
         allowedHosts: ['github.com']
         repoUrl: github.com?repo=rhdh-demo&owner=josephassiga
-        title: "Create new project: ${{ parameters.project }}"
-        description: This is a request for the creation of the namespace ${{ parameters.project }}
-        branchName: create-ns-${{parameters.project}}
+        title: "Provision project: ${{ parameters.project }}"
+        description: "Namespace + RoleBindings for ${{ parameters.project }}"
+        branchName: provision-${{ parameters.project }}
+        sourcePath: .
 
   output:
     links:
-      - title: View the Source Repository
-        url: ${{ ssteps.pull-request.output.remoteUrl.output.remoteUrl }}
-                               
+      - title: View PR
+        url: ${{ steps.pr.output.remoteUrl }}
