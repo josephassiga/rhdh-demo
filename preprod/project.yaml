@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: developer hub created
+  labels:
+    team: [object Object],[object Object],[object Object]
+    environment: preprod
+  name: developer
