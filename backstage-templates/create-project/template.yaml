@@ -3,8 +3,8 @@ kind: Template
 metadata:
   name: project-environment-rbac
   title: Project + RBAC (per-group role)
-  description: Creates a Namespace and RoleBindings for selected groups/roles
-  tags: [namespace, rbac, environment]
+  description: Creates a Project and RoleBindings for selected groups/roles
+  tags: [namespace, project, rbac, environment]
 spec:
   owner: service@example.com
   type: service

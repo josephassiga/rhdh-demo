@@ -1,15 +1,23 @@
+{% for t in values.teams -%}
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: ${{ values.project }}-rb
-  namespace: ${{ values.project }}
+  # e.g. developer-admin-group-a-rb
+  name: {{ values.project }}-{{ t.role }}-{{ t.group | replace('/', '-') | replace(' ', '-') | lower }}-rb
+  namespace: {{ values.project }}
 subjects:
-{% for grp in values.teams %}
   - kind: Group
-    name: {{ grp }}
+    name: {{ t.group }}
     apiGroup: rbac.authorization.k8s.io
-{% endfor %}
 roleRef:
-  kind: ClusterRole
-  name: ${{values.project}}
   apiGroup: rbac.authorization.k8s.io
+  {# map role to ClusterRole; use custom Role if requested #}
+  {% if t.role in ["view","edit","admin"] -%}
+  kind: ClusterRole
+  name: {{ t.role }}
+  {% else -%}
+  kind: Role
+  name: {{ values.project }}-custom
+  {% endif -%}
+{% endfor -%}
