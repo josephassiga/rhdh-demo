@@ -4,6 +4,8 @@ metadata:
   annotations:
     openshift.io/description: ${{ values.description }}
   labels:
-    team: {% for t in values.teams %}${{ t.group }}{% if not loop.last %},{% endif %}{% endfor %}
+{% for t in values.teams %}
+    team/{{ t.group }}: ""   # one label per group
+{% endfor %}
     environment: ${{ values.environment }}
   name: ${{ values.project }}
