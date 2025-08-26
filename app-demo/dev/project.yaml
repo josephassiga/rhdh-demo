@@ -4,6 +4,8 @@ metadata:
   annotations:
     openshift.io/description: developer hub created
   labels:
-    team: "group-a,group-b,group-c"
+    team/group-a: ''
+    team/group-b: ''
+    team/group-c: ''
     environment: dev
   name: developer
