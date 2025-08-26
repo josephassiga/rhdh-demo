@@ -82,6 +82,7 @@ spec:
         description: "Namespace + RoleBindings for ${{ parameters.project }}"
         branchName: provision-${{ parameters.project }}
         sourcePath: .
+        targetPath: app-demo/${{ parameters.environment }} 
 
   output:
     links:
