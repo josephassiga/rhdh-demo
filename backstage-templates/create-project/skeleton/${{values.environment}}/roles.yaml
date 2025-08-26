@@ -3,7 +3,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: ${{ values.project }}-${{ t.role }}-${ t.group | replace('/', '-') | replace(' ', '-') | lower }}-rb
+  name: ${{ values.project }}-${{ t.role }}-${{ t.group | replace('/', '-') | replace(' ', '-') | lower }}-rb
   namespace: ${{ values.project }}
 subjects:
   - kind: Group
