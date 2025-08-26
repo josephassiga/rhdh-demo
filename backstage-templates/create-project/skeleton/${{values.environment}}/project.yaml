@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
-    openshift.io/description: ${{values.description}}
+    openshift.io/description: ${{ values.description }}
   labels:
-    team: ${{values.teams}}
-    environment: ${{values.environment}}
-  name: ${{values.project}}
+    team: {% for t in values.teams %}${{ t.group }}{% if not loop.last %},{% endif %}{% endfor %}
+    environment: ${{ values.environment }}
+  name: ${{ values.project }}
