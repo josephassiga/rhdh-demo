@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: developer hub created
+  labels:
+
+    team/group-a: ""   # one label per group
+
+    team/group-b: ""   # one label per group
+
+    team/group-c: ""   # one label per group
+
+    environment: dev
+  name: developer
