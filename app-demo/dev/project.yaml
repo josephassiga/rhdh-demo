@@ -9,5 +9,7 @@ metadata:
 
     team/group-b: ""   # one label per group
 
+    team/group-c: ""   # one label per group
+
     environment: dev
   name: developer
