@@ -1,12 +1,12 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: project-environment-rbac
+  name: epfl-project-rbac
   title: Project + RBAC (per-group role)
-  description: Creates a Project and RoleBindings for selected groups/roles
-  tags: [namespace, project, rbac, environment]
+  description: Create Environment/Projects and RoleBindings for selected groups/roles
+  tags: [namespace, project, rbac, environment, epfl]
 spec:
-  owner: service@example.com
+  owner: assiga@epfl.ch
   type: service
 
   parameters:
@@ -72,19 +72,21 @@ spec:
           environment: ${{ parameters.environment }}
           teams: ${{ parameters.teams }}
 
-    - id: pr
-      name: Open GitHub Pull Request
-      action: publish:github:pull-request
+    - id: mr
+      name: Open GitLab Merge Request
+      action: publish:gitlab:merge-request
       input:
-        #allowedHosts: ['github.com']
-        repoUrl: github.com?repo=rhdh-demo&owner=josephassiga
+        allowedHosts: ['gitlab.epfl.ch'] # must match integrations.gitlab.host
+        # If your project is at https://gitlab.epfl.ch/rhdv-openshift/ocp-rhdh-project
+        repoUrl: gitlab.epfl.ch?owner=rhdv-openshift&repo=ocp-rhdh-project
         title: "Provision project: ${{ parameters.project }}"
         description: "Namespace + RoleBindings for ${{ parameters.project }}"
         branchName: provision-${{ parameters.project }}
+        targetBranch: main  # <-- set to your real default branch
         sourcePath: .
         targetPath: app-demo/${{ parameters.environment }} 
 
   output:
     links:
-      - title: View PR
-        url: ${{ steps.pr.output.remoteUrl }}
+      - title: View MR
+        url: ${{ steps.mr.output.remoteUrl }}
