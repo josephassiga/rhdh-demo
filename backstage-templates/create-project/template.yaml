@@ -11,12 +11,16 @@ spec:
 
   parameters:
     - title: Project Details
-      required: [project, description, environment]
+      required: [project, codeprojet, description, environment]
       properties:
         project:
           title: Project
           type: string
           description: K8s namespace/project name
+        codeprojet:
+          title: CodeProjet
+          type: string
+          description: K8s code projet
         description:
           title: Description
           type: string
