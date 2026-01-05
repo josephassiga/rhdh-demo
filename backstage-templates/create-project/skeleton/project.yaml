@@ -3,6 +3,7 @@ kind: Namespace
 metadata:
   annotations:
     openshift.io/description: ${{ values.description }}
+    code: ${{ values.codeproject }}
   labels:
 {% for t in values.teams %}
     team/${{ t.group }}: ""   # one label per group
