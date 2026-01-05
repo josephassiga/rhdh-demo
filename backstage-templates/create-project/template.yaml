@@ -18,7 +18,7 @@ spec:
           type: string
           description: K8s namespace/project name
         codeprojet:
-          title: CodeProjet
+          title: Code Projet
           type: string
           description: K8s code projet
         description:
@@ -74,6 +74,7 @@ spec:
           project: ${{ parameters.project }}
           description: ${{ parameters.description }}
           environment: ${{ parameters.environment }}
+          codeprojet: ${{ parameters.codeprojet }}
           teams: ${{ parameters.teams }}
 
     - id: pr
